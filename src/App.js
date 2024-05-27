@@ -1,11 +1,12 @@
+import Form from "./components/form/form";
 
 
-const App = () => {
+const App = () => {  
 
-  return (
-    <div className="App">
-      
-    </div>
+  return (  
+    <>
+      <Form></Form>
+    </>
   );
 }
 

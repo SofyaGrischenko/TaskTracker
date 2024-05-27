@@ -1,0 +1,13 @@
+
+
+  .formButton{
+  border: none;
+  border-radius: 10px;
+  background-color: #a2c5da;
+  color: white;
+  margin: 10px;
+    &:hover {
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }

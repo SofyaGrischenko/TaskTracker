@@ -1,0 +1,23 @@
+.taskList{
+  background-color: #c3b39c;
+  min-width: 500px;
+  margin: 20px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  padding:10px;
+}
+
+
+.taskListButton{
+  color:#605f66fa;
+  margin: 5px;
+  display: flex;
+  background-color: #d2c7a4;
+  border: none;
+    &:hover {
+     font-weight: bold;
+     cursor: pointer;
+  }
+}
+
