@@ -1,16 +1,32 @@
 import React, { useState } from "react";
 import css from "./task.module.scss";
+import axios from "axios";
 
-const TaskList = (props) => {
-  const { taskArr, updateLocalStorage, handleEdit, reset, finishedTask } =
-    props;
-
+const TaskList = ({
+  taskArr,
+  updateDB,
+  handleEdit,
+  reset,
+  finishedTask,
+  setTaskArr,
+  url,
+  fetchTasks
+}) => {
   const [newName, setNewName] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
   const deleteOneTask = (id) => {
-    const updatedTasks = taskArr.filter((task) => task.id !== id);
-    updateLocalStorage(updatedTasks);
+    axios
+      .delete(url + id)
+      .then((response) => {
+        const updatedTasks = taskArr.filter((task) => task.id !== id);
+        console.log('DELETE 1 TASK');
+        setTaskArr(updatedTasks);
+        updateDB(updatedTasks)
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const saveChanges = (idx) => {
@@ -19,24 +35,27 @@ const TaskList = (props) => {
         ? { ...task, taskName: newName, taskDescription: newDescription }
         : task
     );
-    updateLocalStorage(updatedTasks);
+
+    updateDB(updatedTasks);
     reset();
   };
 
   const changeStatus = (idx) => {
+    console.log(idx);
     const updatedTasks = taskArr.map((task) =>
-      task.id === idx ? { ...task, status: !task.status } : task
-    );
-    updateLocalStorage(updatedTasks);
+     task.id === idx ? { ...task, status: !task.status } : task  
+  );
+    console.log(updatedTasks);
+    updateDB(updatedTasks)
   };
 
   return (
     <>
-      {taskArr.length &&
-        taskArr.map((task, id) => {
+      {taskArr.length > 0 &&
+        taskArr.map((task) => {
           if (finishedTask === task.status) {
             return (
-              <div key={id} className={css.taskList}>
+              <div key={task.id} className={css.taskList}>
                 {!task.edit ? (
                   <span> Name:{task.taskName} </span>
                 ) : (
@@ -84,7 +103,7 @@ const TaskList = (props) => {
                 </button>
               </div>
             );
-          } else return <></>;
+          } else return null;
         })}
     </>
   );
